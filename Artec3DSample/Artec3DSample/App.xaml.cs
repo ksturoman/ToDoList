@@ -21,7 +21,7 @@ namespace Artec3DSample
         {
             InitializeComponent();
 
-            containerBuilder.RegisterType<NavigationService>().As<INavigationService>().WithParameter("rootPage", MainPage).SingleInstance();
+            containerBuilder.RegisterType<NavigationService>().As<INavigationService>().WithParameter("rootPage", MainPage).SingleInstance(); //todo null??
             containerBuilder.RegisterType<SettingsProvider>().As<ISettingsProvider>().SingleInstance();
 
             containerBuilder.RegisterType<TaskListPageViewModel>();

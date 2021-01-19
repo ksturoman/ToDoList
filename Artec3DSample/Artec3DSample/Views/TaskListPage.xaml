@@ -2,12 +2,47 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Artec3DSample.Views.TaskListPage">
+    x:Class="Artec3DSample.Views.TaskListPage"
+    Title="{Binding PageName}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <CollectionView
+            ItemsSource="{Binding Tasks}"
+            SelectionMode="Single"
+            SelectionChangedCommand="{Binding CreateNewTaskCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout
+                        Padding="4"
+                        Orientation="Vertical">
+                        <!--<VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal" />
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#cfd8dc" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>-->
+                        <StackLayout
+                            Orientation="Horizontal">
+                            <Label
+                                HorizontalOptions="StartAndExpand"
+                                FontAttributes="Bold"
+                                Text="{Binding CreatedAt, StringFormat='{0:t}'}"/>
+                            <Label
+                                HorizontalOptions="End"
+                                FontAttributes="Bold"
+                                Text="{Binding StatusString}"
+                                TextColor="{Binding StatusColor}"/>
+                        </StackLayout>
+                        <Label
+                            HorizontalOptions="Start"
+                            FontAttributes="Italic"
+                            Text="{Binding Description}"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </ContentPage.Content>
 </ContentPage>

@@ -3,6 +3,7 @@ using Artec3DSample.Models.DTO;
 using Artec3DSample.Models.DTO.Enums;
 using System;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Artec3DSample.Models.DAO
 {
@@ -30,6 +31,10 @@ namespace Artec3DSample.Models.DAO
             }
         }
 
+        public Color StatusColor => Status.ToColor();
+
+        public string StatusString => Status.ToString();
+
         private TaskItemStatus _status;
         public TaskItemStatus Status
         {
@@ -38,6 +43,8 @@ namespace Artec3DSample.Models.DAO
             {
                 _status = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(StatusColor));
+                OnPropertyChanged(nameof(StatusString));
             }
         }
 

@@ -20,7 +20,8 @@ namespace Artec3DSample.Classes
 
             _pagesByKey = new Dictionary<string, Type>
             {
-                {nameof(TaskListPage), typeof(TaskListPage)}
+                {nameof(TaskListPage), typeof(TaskListPage)},
+                {nameof(EditTaskPage), typeof(EditTaskPage)}
             };
         }
 
