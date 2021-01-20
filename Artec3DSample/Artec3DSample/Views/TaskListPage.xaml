@@ -6,24 +6,17 @@
     Title="{Binding PageName}">
     <ContentPage.Content>
         <CollectionView
-            ItemsSource="{Binding Tasks}"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding CreateNewTaskCommand}">
+            ItemsSource="{Binding Tasks}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout
                         Padding="4"
-                        Orientation="Vertical">
-                        <!--<VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Normal" />
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#cfd8dc" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>-->
+                        Orientation="Vertical"
+                        BackgroundColor="{Binding SelectionColor}">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditTaskCommand}"/>
+                            <DragGestureRecognizer CanDrag="True" DragStartingCommand="{Binding SelectedCommand}"/>
+                        </StackLayout.GestureRecognizers>
                         <StackLayout
                             Orientation="Horizontal">
                             <Label

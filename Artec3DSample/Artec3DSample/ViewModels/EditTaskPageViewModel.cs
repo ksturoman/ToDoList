@@ -2,6 +2,7 @@
 using Artec3DSample.Interfaces;
 using Artec3DSample.Models.DAO;
 using Artec3DSample.Models.DTO;
+using Artec3DSample.Models.DTO.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,17 @@ namespace Artec3DSample.ViewModels
 {
     public class EditTaskPageViewModel : BaseViewModel
     {
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+
         private TaskModel _taskModel;
         public TaskModel TaskModel
         {
@@ -24,12 +36,14 @@ namespace Artec3DSample.ViewModels
             }
         }
 
+        public TaskItemStatus[] TaskStatuses => Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().ToArray(); //todo to model
+
         public ICommand SaveCommand { get; set; }
 
         private readonly Guid? _taskId;
         private readonly INavigationService _navigationService;
         private readonly ISettingsProvider _settingsProvider;
-        //todo change title when editing or adding
+
         public EditTaskPageViewModel(Guid? taskId, INavigationService navigationService, ISettingsProvider settingsProvider) : base("Task", navigationService)
         {
             _taskId = taskId;
@@ -43,13 +57,17 @@ namespace Artec3DSample.ViewModels
         {
             if (_taskId.HasValue)
             {
-                var tasks = _settingsProvider.GetJsonValueOrDefault<List<TaskModel>>(SettingsProvider.Tasks);
+                var tasks = _settingsProvider.GetJsonValueOrDefault<List<TaskItem>>(SettingsProvider.Tasks);
 
-                TaskModel = tasks.First(t => t.Id == _taskId);
+                TaskModel = new TaskModel(tasks.First(t => t.Id == _taskId));
+
+                Title = "Edit task";
             }
             else
             {
                 TaskModel = new TaskModel();
+
+                Title = "Create task";
             }
 
             return Task.CompletedTask;
@@ -64,7 +82,7 @@ namespace Artec3DSample.ViewModels
                 tasks.Remove(existingTask);
             }
 
-            tasks.Add(TaskModel.BuildTaskItem());
+            tasks.Add(TaskModel.BuildTaskItem()); //todo create time
 
             await _navigationService.PopAsync(true);
         }

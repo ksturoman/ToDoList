@@ -46,15 +46,22 @@ namespace Artec3DSample.ViewModels
 
         public Task Refresh()
         {
-            // For a real task I'd use an SQLite for such kind of data but for that sample I will use a simple data caching (SharedPreferences for Android and NSUserDefaults for iOS)
-            var defaultTasks = new List<TaskItem>
-            {
-                new TaskItem { CreatedAt = DateTime.Now.Subtract(TimeSpan.FromMinutes(30)), Description = "Brush teeth", Status = TaskItemStatus.Completed },
-                new TaskItem { CreatedAt = DateTime.Now, Description = "Wash the dishes", Status = TaskItemStatus.InProgress },
-                new TaskItem { CreatedAt = DateTime.Now.Add(TimeSpan.FromMinutes(25)), Description = "Take out the trash", Status = TaskItemStatus.Opened }
-            };
+            // For a real app I'd use an SQLite for such kind of data but for that sample I will use a simple data caching (SharedPreferences for Android and NSUserDefaults for iOS)
+            var tasks = _settingsProvider.GetJsonValueOrDefault<List<TaskItem>>(SettingsProvider.Tasks);
 
-            var tasks = _settingsProvider.GetJsonValueOrDefault(SettingsProvider.Tasks, defaultTasks);
+            if (tasks == null)
+            {
+                var defaultTasks = new List<TaskItem>
+                {
+                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Subtract(TimeSpan.FromMinutes(30)), Description = "Brush teeth", Status = TaskItemStatus.Completed },
+                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now, Description = "Wash the dishes", Status = TaskItemStatus.InProgress },
+                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Add(TimeSpan.FromMinutes(25)), Description = "Take out the trash", Status = TaskItemStatus.Opened }
+                };
+
+                _settingsProvider.AddOrUpdateJsonValue(SettingsProvider.Tasks, defaultTasks);
+
+                tasks = defaultTasks;
+            }
 
             Tasks = new ObservableCollection<TaskModel>(tasks.OrderBy(t => t.CreatedAt).Select(t => new TaskModel(t)
             {
@@ -66,7 +73,7 @@ namespace Artec3DSample.ViewModels
 
         public Task OpenTaskForEditing(Guid taskId)
         {
-            return _navigationService.PushAsync(nameof(EditTaskPage), true);
+            return _navigationService.PushAsync(nameof(EditTaskPage), true, taskId);
         }
 
         public Task CreateNewTask()

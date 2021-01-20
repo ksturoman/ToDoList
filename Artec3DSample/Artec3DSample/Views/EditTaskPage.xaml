@@ -3,8 +3,27 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Artec3DSample.Views.EditTaskPage"
-    Title="{Binding PageName}">
+    Title="{Binding Title}">
     <ContentPage.Content>
-        
+        <StackLayout
+            Orientation="Vertical"
+            Padding="8">
+            <Entry
+                Visual="Material"
+                Placeholder="Enter task description"
+                PlaceholderColor="{StaticResource TintColor}"
+                Text="{Binding TaskModel.Description}"/>
+            <Picker
+                Visual="Material"
+                TitleColor="{StaticResource TintColor}"
+                ItemsSource="{Binding TaskStatuses}"/>
+            <Button
+                VerticalOptions="EndAndExpand"
+                Text="Save"
+                Visual="Material"
+                BackgroundColor="{StaticResource TintColor}"
+                TextColor="White"
+                Command="{Binding SaveCommand}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

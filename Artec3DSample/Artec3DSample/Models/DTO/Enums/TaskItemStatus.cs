@@ -1,5 +1,4 @@
-﻿
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Artec3DSample.Models.DTO.Enums
 {

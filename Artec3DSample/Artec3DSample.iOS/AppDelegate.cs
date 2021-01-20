@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Artec3DSample.iOS
 {
@@ -19,7 +20,10 @@ namespace Artec3DSample.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.Forms.Forms.Init();
+            Forms.SetFlags("DragAndDrop_Experimental");
+            Forms.Init();
+
+            FormsMaterial.Init();
 
             var containerBuilder = new ContainerBuilder();
 

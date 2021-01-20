@@ -59,6 +59,8 @@ namespace Artec3DSample.Models.DAO
             }
         }
 
+        public Color SelectionColor => IsSelected ? Color.FromHex("#cfd8dc") : Color.Transparent;
+
         private bool _isSelected;
         public bool IsSelected
         {
@@ -67,17 +69,20 @@ namespace Artec3DSample.Models.DAO
             {
                 _isSelected = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectionColor));
             }
         }
+
+        public ICommand SelectedCommand { get; }
 
         public ICommand EditTaskCommand { get; set; }
 
         public TaskModel()
         {
-            
+            SelectedCommand = new Command(() => { IsSelected = !IsSelected; }); //todo temp
         }
 
-        public TaskModel(TaskItem taskItem)
+        public TaskModel(TaskItem taskItem) : this()
         {
             Id = taskItem.Id;
             CreatedAt = taskItem.CreatedAt;

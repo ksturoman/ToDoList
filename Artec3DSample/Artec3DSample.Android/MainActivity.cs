@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Autofac;
+using Xamarin.Forms;
 
 namespace Artec3DSample.Droid
 {
@@ -17,7 +18,11 @@ namespace Artec3DSample.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            Forms.SetFlags("DragAndDrop_Experimental");
+            Forms.Init(this, savedInstanceState);
+
+            FormsMaterial.Init(this, savedInstanceState);
 
             var containerBuilder = new ContainerBuilder();
 
