@@ -11,11 +11,9 @@
                 <DataTemplate>
                     <StackLayout
                         Padding="4"
-                        Orientation="Vertical"
-                        BackgroundColor="{Binding SelectionColor}">
+                        Orientation="Vertical">
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding EditTaskCommand}"/>
-                            <DragGestureRecognizer CanDrag="True" DragStartingCommand="{Binding SelectedCommand}"/>
                         </StackLayout.GestureRecognizers>
                         <StackLayout
                             Orientation="Horizontal">

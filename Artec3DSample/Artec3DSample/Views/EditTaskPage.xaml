@@ -16,6 +16,7 @@
             <Picker
                 Visual="Material"
                 TitleColor="{StaticResource TintColor}"
+                SelectedItem="{Binding TaskModel.Status}"
                 ItemsSource="{Binding TaskStatuses}"/>
             <Button
                 VerticalOptions="EndAndExpand"

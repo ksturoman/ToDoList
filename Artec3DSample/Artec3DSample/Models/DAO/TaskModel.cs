@@ -31,12 +31,12 @@ namespace Artec3DSample.Models.DAO
             }
         }
 
-        public Color StatusColor => Status.ToColor();
+        public Color StatusColor => Status.TaskStatus.ToColor();
 
         public string StatusString => Status.ToString();
 
-        private TaskItemStatus _status;
-        public TaskItemStatus Status
+        private TaskStatusModel _status;
+        public TaskStatusModel Status
         {
             get => _status;
             set
@@ -59,8 +59,6 @@ namespace Artec3DSample.Models.DAO
             }
         }
 
-        public Color SelectionColor => IsSelected ? Color.FromHex("#cfd8dc") : Color.Transparent;
-
         private bool _isSelected;
         public bool IsSelected
         {
@@ -69,24 +67,21 @@ namespace Artec3DSample.Models.DAO
             {
                 _isSelected = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(SelectionColor));
             }
         }
-
-        public ICommand SelectedCommand { get; }
 
         public ICommand EditTaskCommand { get; set; }
 
         public TaskModel()
         {
-            SelectedCommand = new Command(() => { IsSelected = !IsSelected; }); //todo temp
+
         }
 
-        public TaskModel(TaskItem taskItem) : this()
+        public TaskModel(TaskItem taskItem)
         {
             Id = taskItem.Id;
             CreatedAt = taskItem.CreatedAt;
-            Status = taskItem.Status;
+            Status = new TaskStatusModel(taskItem.Status);
             Description = taskItem.Description;
         }
 
@@ -97,7 +92,7 @@ namespace Artec3DSample.Models.DAO
                 Id = Id,
                 CreatedAt = CreatedAt,
                 Description = Description,
-                Status = Status
+                Status = Status.TaskStatus
             };
         }
     }

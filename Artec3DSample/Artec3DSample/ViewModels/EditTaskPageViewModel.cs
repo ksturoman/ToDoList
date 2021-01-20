@@ -36,7 +36,7 @@ namespace Artec3DSample.ViewModels
             }
         }
 
-        public TaskItemStatus[] TaskStatuses => Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().ToArray(); //todo to model
+        public TaskStatusModel[] TaskStatuses => Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().Select(t => new TaskStatusModel(t)).ToArray();
 
         public ICommand SaveCommand { get; set; }
 

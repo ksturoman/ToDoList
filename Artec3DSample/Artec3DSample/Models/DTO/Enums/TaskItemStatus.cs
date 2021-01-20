@@ -24,7 +24,7 @@ namespace Artec3DSample.Models.DTO.Enums
             }
         }
 
-        public static string ToString(this TaskItemStatus status)
+        public static string ToUserFriendlyString(this TaskItemStatus status)
         {
             switch (status)
             {
