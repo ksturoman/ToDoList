@@ -29,8 +29,8 @@ namespace Artec3DSample.ViewModels
         private readonly Guid? _taskId;
         private readonly INavigationService _navigationService;
         private readonly ISettingsProvider _settingsProvider;
-
-        public EditTaskPageViewModel(Guid? taskId, INavigationService navigationService, ISettingsProvider settingsProvider) : base("Edit", navigationService)
+        //todo change title when editing or adding
+        public EditTaskPageViewModel(Guid? taskId, INavigationService navigationService, ISettingsProvider settingsProvider) : base("Task", navigationService)
         {
             _taskId = taskId;
             _navigationService = navigationService;

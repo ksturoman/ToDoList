@@ -11,18 +11,22 @@ namespace Artec3DSample.Classes
 {
     public class NavigationService : INavigationService
     {
+        private NavigationPage _rootPage;
+
         private readonly Dictionary<string, Type> _pagesByKey;
-        private readonly NavigationPage _rootPage;
 
-        public NavigationService(NavigationPage rootPage)
+        public NavigationService()
         {
-            _rootPage = rootPage;
-
             _pagesByKey = new Dictionary<string, Type>
             {
                 {nameof(TaskListPage), typeof(TaskListPage)},
                 {nameof(EditTaskPage), typeof(EditTaskPage)}
             };
+        }
+
+        public void SetRootPage(NavigationPage rootPage)
+        {
+            _rootPage = rootPage;
         }
 
         private static ConstructorInfo GetConstructor(Type type, IReadOnlyCollection<object> pageConstructorParameters)

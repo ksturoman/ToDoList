@@ -7,5 +7,9 @@ namespace Artec3DSample.Views.Controls
 {
     public class CustomCollectionView : CollectionView //todo
     {
+        public CustomCollectionView()
+        {
+            
+        }
     }
 }

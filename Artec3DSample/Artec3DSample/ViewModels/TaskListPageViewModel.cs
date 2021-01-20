@@ -66,7 +66,7 @@ namespace Artec3DSample.ViewModels
 
         public Task OpenTaskForEditing(Guid taskId)
         {
-            return _navigationService.PushAsync(nameof(EditTaskPage), true, taskId);
+            return _navigationService.PushAsync(nameof(EditTaskPage), true);
         }
 
         public Task CreateNewTask()

@@ -11,6 +11,11 @@ namespace Artec3DSample.Views
     {
         private EditTaskPageViewModel ViewModel => (EditTaskPageViewModel) BindingContext;
 
+        public EditTaskPage() : this(default)
+        {
+            
+        }
+
         public EditTaskPage(Guid? taskId)
         {
             InitializeComponent();
