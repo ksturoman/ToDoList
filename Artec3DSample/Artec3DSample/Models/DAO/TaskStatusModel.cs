@@ -7,7 +7,6 @@ namespace Artec3DSample.Models.DAO
     public class TaskStatusModel : PropertyChangedListener, IEquatable<TaskStatusModel>
     {
         private TaskItemStatus _taskStatus;
-
         public TaskItemStatus TaskStatus
         {
             get => _taskStatus;
@@ -23,7 +22,7 @@ namespace Artec3DSample.Models.DAO
             TaskStatus = taskItemStatus;
         }
 
-        public bool Equals(TaskStatusModel other) => other != null && other.TaskStatus == TaskStatus; //todo
+        public bool Equals(TaskStatusModel other) => other != null && other.TaskStatus == TaskStatus;
 
         public override string ToString() => TaskStatus.ToUserFriendlyString();
     }

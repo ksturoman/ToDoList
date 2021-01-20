@@ -5,6 +5,7 @@ using Artec3DSample.Models.DTO;
 using Artec3DSample.Models.DTO.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,7 +32,16 @@ namespace Artec3DSample.ViewModels
             }
         }
 
-        public TaskStatusModel[] TaskStatuses => Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().Select(t => new TaskStatusModel(t)).ToArray();
+        private ObservableCollection<TaskStatusModel> _taskStatuses;
+        public ObservableCollection<TaskStatusModel> TaskStatuses
+        {
+            get => _taskStatuses;
+            set
+            {
+                _taskStatuses = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand SaveCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -48,6 +58,8 @@ namespace Artec3DSample.ViewModels
 
             SaveCommand = new Command(() => OperateTask(nameof(Save)));
             DeleteCommand = new Command(() => OperateTask(nameof(Delete)));
+
+            TaskStatuses = new ObservableCollection<TaskStatusModel>(Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().Select(t => new TaskStatusModel(t)));
         }
 
         public Task Refresh()
