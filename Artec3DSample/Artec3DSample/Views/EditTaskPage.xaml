@@ -21,10 +21,14 @@
             <Button
                 VerticalOptions="EndAndExpand"
                 Text="Save"
-                Visual="Material"
-                BackgroundColor="{StaticResource TintColor}"
-                TextColor="White"
+                Style="{StaticResource MainButtonStyle}"
                 Command="{Binding SaveCommand}"/>
+            <Button
+                VerticalOptions="End"
+                Text="Delete"
+                IsVisible="{Binding IsExistingTask}"
+                Style="{StaticResource MainButtonStyle}"
+                Command="{Binding DeleteCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

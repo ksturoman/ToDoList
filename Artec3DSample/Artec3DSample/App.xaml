@@ -1,11 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application 
+<Application
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Artec3DSample.App">
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="TintColor">#0091ea</Color>
+            <Color x:Key="DisabledTintColor">#bdbdbd</Color>
         </ResourceDictionary>
+        <Style x:Key="MainButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{DynamicResource TintColor}" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="Visual" Value="Material" />
+            <Style.Triggers>
+                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                    <Setter Property="BackgroundColor" Value="{DynamicResource DisabledTintColor}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

@@ -28,7 +28,6 @@ namespace Artec3DSample.ViewModels
         }
 
         public ICommand CreateNewTaskCommand { get; set; }
-        public ICommand RemoveSelectedTasksCommand { get; set; }
 
         private readonly INavigationService _navigationService;
         private readonly ISettingsProvider _settingsProvider;
@@ -39,7 +38,6 @@ namespace Artec3DSample.ViewModels
             _settingsProvider = settingsProvider;
 
             CreateNewTaskCommand = new Command(() => OperateTask(nameof(CreateNewTask)));
-            RemoveSelectedTasksCommand = new Command(() => OperateTask(nameof(RemoveSelectedTasks)));
 
             Tasks = new ObservableCollection<TaskModel>();
         }
@@ -55,7 +53,8 @@ namespace Artec3DSample.ViewModels
                 {
                     new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Subtract(TimeSpan.FromMinutes(30)), Description = "Brush teeth", Status = TaskItemStatus.Completed },
                     new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now, Description = "Wash the dishes", Status = TaskItemStatus.InProgress },
-                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Add(TimeSpan.FromMinutes(25)), Description = "Take out the trash", Status = TaskItemStatus.Opened }
+                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Add(TimeSpan.FromMinutes(25)), Description = "Take out the trash", Status = TaskItemStatus.Opened },
+                    new TaskItem { Id = Guid.NewGuid(), CreatedAt = DateTime.Now.Add(TimeSpan.FromMinutes(55)), Description = "Buy products. Shopping list: bread, butter, fruit, water, biscuits, meat.", Status = TaskItemStatus.Opened }
                 };
 
                 _settingsProvider.AddOrUpdateJsonValue(SettingsProvider.Tasks, defaultTasks);
@@ -79,15 +78,6 @@ namespace Artec3DSample.ViewModels
         public Task CreateNewTask()
         {
             return _navigationService.PushAsync(nameof(EditTaskPage), true);
-        }
-
-        public Task RemoveSelectedTasks()
-        {
-            var tasks = Tasks.Where(t => !t.IsSelected).ToList();
-
-            _settingsProvider.AddOrUpdateJsonValue(SettingsProvider.Tasks, tasks);
-
-            return Task.CompletedTask;
         }
     }
 }

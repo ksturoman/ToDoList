@@ -5,35 +5,46 @@
     x:Class="Artec3DSample.Views.TaskListPage"
     Title="{Binding PageName}">
     <ContentPage.Content>
-        <CollectionView
-            ItemsSource="{Binding Tasks}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout
-                        Padding="4"
-                        Orientation="Vertical">
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding EditTaskCommand}"/>
-                        </StackLayout.GestureRecognizers>
+        <StackLayout
+            Orientation="Vertical">
+            <CollectionView
+                ItemsSource="{Binding Tasks}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
                         <StackLayout
-                            Orientation="Horizontal">
+                            Padding="4"
+                            Orientation="Vertical">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditTaskCommand}"/>
+                            </StackLayout.GestureRecognizers>
                             <Label
-                                HorizontalOptions="StartAndExpand"
-                                FontAttributes="Bold"
-                                Text="{Binding CreatedAt, StringFormat='{0:t}'}"/>
-                            <Label
-                                HorizontalOptions="End"
-                                FontAttributes="Bold"
-                                Text="{Binding StatusString}"
-                                TextColor="{Binding StatusColor}"/>
+                                HorizontalOptions="Start"
+                                FontAttributes="Italic"
+                                Text="{Binding Description}"/>
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Label
+                                    HorizontalOptions="End"
+                                    FontAttributes="Bold"
+                                    Text="{Binding StatusString}"
+                                    TextColor="{Binding StatusColor}"/>
+                                <Label
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding CreatedAt, StringFormat='{0:g}'}"/>
+                            </StackLayout>
+                            <BoxView
+                                HeightRequest="1"
+                                HorizontalOptions="Fill"
+                                Color="#e0e0e0"/>
                         </StackLayout>
-                        <Label
-                            HorizontalOptions="Start"
-                            FontAttributes="Italic"
-                            Text="{Binding Description}"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button
+                Margin="8"
+                Text="Create new"
+                Style="{StaticResource MainButtonStyle}"
+                Command="{Binding CreateNewTaskCommand}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

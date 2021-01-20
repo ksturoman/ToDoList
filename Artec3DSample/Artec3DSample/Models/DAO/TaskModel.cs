@@ -59,22 +59,11 @@ namespace Artec3DSample.Models.DAO
             }
         }
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand EditTaskCommand { get; set; }
 
         public TaskModel()
         {
-
+            Id = Guid.NewGuid();
         }
 
         public TaskModel(TaskItem taskItem)

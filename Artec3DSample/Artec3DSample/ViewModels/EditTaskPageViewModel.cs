@@ -14,16 +14,9 @@ namespace Artec3DSample.ViewModels
 {
     public class EditTaskPageViewModel : BaseViewModel
     {
-        private string _title;
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
-        }
+        public string Title => IsExistingTask ? "Edit task" : "Create new task";
+
+        public bool IsExistingTask => _taskId.HasValue;
 
         private TaskModel _taskModel;
         public TaskModel TaskModel
@@ -33,12 +26,15 @@ namespace Artec3DSample.ViewModels
             {
                 _taskModel = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsExistingTask));
+                OnPropertyChanged(nameof(Title));
             }
         }
 
         public TaskStatusModel[] TaskStatuses => Enum.GetValues(typeof(TaskItemStatus)).Cast<TaskItemStatus>().Select(t => new TaskStatusModel(t)).ToArray();
 
         public ICommand SaveCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
 
         private readonly Guid? _taskId;
         private readonly INavigationService _navigationService;
@@ -51,6 +47,7 @@ namespace Artec3DSample.ViewModels
             _settingsProvider = settingsProvider;
 
             SaveCommand = new Command(() => OperateTask(nameof(Save)));
+            DeleteCommand = new Command(() => OperateTask(nameof(Delete)));
         }
 
         public Task Refresh()
@@ -60,14 +57,10 @@ namespace Artec3DSample.ViewModels
                 var tasks = _settingsProvider.GetJsonValueOrDefault<List<TaskItem>>(SettingsProvider.Tasks);
 
                 TaskModel = new TaskModel(tasks.First(t => t.Id == _taskId));
-
-                Title = "Edit task";
             }
             else
             {
                 TaskModel = new TaskModel();
-
-                Title = "Create task";
             }
 
             return Task.CompletedTask;
@@ -82,7 +75,27 @@ namespace Artec3DSample.ViewModels
                 tasks.Remove(existingTask);
             }
 
-            tasks.Add(TaskModel.BuildTaskItem()); //todo create time
+            if (!IsExistingTask)
+            {
+                TaskModel.CreatedAt = DateTime.Now;
+            }
+
+            tasks.Add(TaskModel.BuildTaskItem());
+
+            _settingsProvider.AddOrUpdateJsonValue(SettingsProvider.Tasks, tasks);
+
+            await _navigationService.PopAsync(true);
+        }
+
+        public async Task Delete()
+        {
+            var tasks = _settingsProvider.GetJsonValueOrDefault<List<TaskItem>>(SettingsProvider.Tasks);
+
+            var existingTask = tasks.First(t => t.Id == TaskModel.Id);
+
+            tasks.Remove(existingTask);
+
+            _settingsProvider.AddOrUpdateJsonValue(SettingsProvider.Tasks, tasks);
 
             await _navigationService.PopAsync(true);
         }
